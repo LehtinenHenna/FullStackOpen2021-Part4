@@ -1,0 +1,10 @@
+POST http://localhost:3003/api/blogs 
+Content-Type: application/json
+
+{
+  "title" : "Wearing History", 
+  "author": "Lauren",
+  "url": "https://wearinghistoryblog.com/",
+  "likes": "50"
+
+}

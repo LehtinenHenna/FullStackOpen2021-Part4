@@ -1,0 +1,10 @@
+POST http://localhost:3003/api/blogs 
+Content-Type: application/json
+
+{
+  "title" : "The Fashionable Past", 
+  "author": " Katherine Caron-Greig",
+  "url": "http://koshka-the-cat.blogspot.com/",
+  "likes": "67"
+
+}
