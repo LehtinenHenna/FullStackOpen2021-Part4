@@ -9,7 +9,7 @@ describe('most blogs', () => {
     expect(result).toEqual({})
   })
 
-  test('when a list has only one blog equals an object {<authorOfThatBlog> : 1}', () => {
+  test('when a list has only one blog equals an object {author: <authorOfThatBlog>, blogs: 1}', () => {
     const result = listHelper.mostBlogs(blogLists.listWithOneBlog)
     expect(result).toEqual(
       {

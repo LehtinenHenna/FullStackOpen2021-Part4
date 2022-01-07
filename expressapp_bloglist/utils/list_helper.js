@@ -25,7 +25,8 @@ const favoriteBlog = blogs => {
   }
 }
 
-// finds the author who has written most blogs and returns an object with the name of the author and the number of their blogs
+
+// from a list of blogs finds the author who has written most blogs and returns an object with the name of the author and the number of their blogs
 const mostBlogs = blogs => {
   let authors = {} // authors will hold each author's name as keys and the number of their blogs as values
 
@@ -38,7 +39,7 @@ const mostBlogs = blogs => {
     }
   })
 
-  if (_.isEmpty(authors)) { // if the authors object is empty, return it (using reduce would throw an error)
+  if (_.isEmpty(authors)) { // if the authors object is empty, return it (using reduce with it would throw an error)
     return {}
 
   } else {
@@ -54,9 +55,39 @@ const mostBlogs = blogs => {
 }
 
 
+// from a list of blogs finds the author whose blogs have the most likes
+const mostLikes = (blogs) => {
+  const authors = {} // authors will hold each author's name as keys and the number of their likes as values
+
+  _.forEach(blogs, (value) => { // for each blog in the list of blogs (value is one blog)
+    if (value.author in authors) {
+      authors[value.author] += value.likes
+    } else {
+      authors[value.author] = value.likes
+    }
+  })
+
+  if (_.isEmpty(authors)) { // if the authors object is empty, return it (using reduce with it would throw an error)
+    return {}
+
+  } else {
+    // find the key with biggest value using reduce
+    const authorWithMostLikes = Object.keys(authors).reduce((previousValue, currentValue) => 
+    authors[previousValue] > authors[currentValue] 
+    ? previousValue // when true
+    : currentValue // when false
+    )
+    // return e.g. {author: 'Robert C. Martin', likes: 12}
+    return {author: authorWithMostLikes, likes: authors[authorWithMostLikes]}
+  }
+}
+
+
+
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
-  mostBlogs
+  mostBlogs,
+  mostLikes
 }
