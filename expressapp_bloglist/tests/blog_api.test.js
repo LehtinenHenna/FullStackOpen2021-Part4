@@ -61,6 +61,23 @@ test('a valid blog can be posted to the database', async () => {
     )
 })
 
+test('if the number of likes is left blank it should be zero', async () => {
+  const newBlog = {
+    title: 'The Closet Historian',
+    url: 'http://theclosethistorian.blogspot.com/',
+    author: 'Bianca'
+  }
+
+  await api 
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(200)
+
+  const blogsAtEnd = await helper.blogsInDb()
+  
+  const blogIndex = _.findIndex(blogsAtEnd, (blog) => blog.title === 'The Closet Historian')
+  expect(blogsAtEnd[blogIndex].likes).toBe(0)
+})
 
 
 afterAll(() => {
