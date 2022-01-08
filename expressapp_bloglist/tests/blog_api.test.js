@@ -83,7 +83,7 @@ describe('addition of a new blog', () => {
 
     const blogsAtEnd = await helper.blogsInDb()
 
-    const blogIndex = _.findIndex(blogsAtEnd, (blog) => blog.title === 'The Closet Historian')
+    const blogIndex = _.findIndex(blogsAtEnd, (blog) => blog.title === newBlog.title)
     expect(blogsAtEnd[blogIndex].likes).toBe(0)
   })
 
@@ -112,6 +112,8 @@ describe('addition of a new blog', () => {
   })
 })
 
+
+
 describe('deleting a blog', () => {
 
   test('succeeds with status 204 if id is valid', async () => {
@@ -136,6 +138,57 @@ describe('deleting a blog', () => {
     await api
       .delete(`/api/blogs/${id}`)
       .expect(400)
+  })
+})
+
+
+
+describe('updating a blog', () => {
+  
+  test('succeeds with valid data', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToUpdate = blogsAtStart[0]
+
+    const updatedBlog = {
+      title: 'Travelling blog',
+      author: 'Keira',
+      likes: 34
+    }
+
+    await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send(updatedBlog)
+      .expect(200)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    const blogIndex = _.findIndex(blogsAtEnd, (blog) => blog.title === updatedBlog.title)
+    const foundBlog = blogsAtEnd[blogIndex]
+
+    expect(foundBlog.author).toBe(updatedBlog.author) // author should be updated
+    expect(foundBlog.likes).toBe(updatedBlog.likes) // likes should be updated
+    expect(foundBlog.url).toBe(blogToUpdate.url) // url should be the same as before
+  })
+
+
+  test('fails with status code 400 if "likes" is not a number', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToUpdate = blogsAtStart[0]
+
+    const updatedBlog = {
+      title: 'Travelling blog',
+      author: 'Keira',
+      likes: 'hi'
+    }
+
+    await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send(updatedBlog)
+      .expect(400)
+
+      const blogsAtEnd = await helper.blogsInDb()
+      const titles = blogsAtEnd.map(blog => blog.title)
+
+      expect(titles).not.toContain(updatedBlog.title)
   })
 })
 
