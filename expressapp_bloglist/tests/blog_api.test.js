@@ -42,6 +42,27 @@ test('the blogs have a field called id', async () => {
   */
 })
 
+
+test('a valid blog can be posted to the database', async () => {
+  const newBlog = helper.listWithOneBlog[0]
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(helper.listWithManyBlogs.length + 1)
+
+    const titles = blogsAtEnd.map(b => b.title)
+    expect(titles).toContain(
+      'Go To Statement Considered Harmful'
+    )
+})
+
+
+
 afterAll(() => {
   mongoose.connection.close()
 })
