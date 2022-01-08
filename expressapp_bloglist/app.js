@@ -1,5 +1,6 @@
 const config = require('./utils/config')
 const express = require('express')
+require('express-async-errors') // a library that enables us to move caught errors found in async functions into middleware.errorHandler without try-catch phrases
 const app = express()
 const cors = require('cors')
 const blogsRouter = require('./controllers/blogs')

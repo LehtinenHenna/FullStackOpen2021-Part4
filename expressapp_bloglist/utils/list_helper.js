@@ -4,11 +4,13 @@ const _= require('lodash')
 // dummy returns 1
 const dummy = blogs => 1
 
+
 // finds out the total number of likes in a list of blogs
 const totalLikes = blogs => {
   totalAmount = blogs.reduce((sum, blog) => sum + blog.likes, 0)
   return totalAmount
 }
+
 
 // finds the blog with most likes out of a list of blogs
 const favoriteBlog = blogs => {
@@ -81,7 +83,6 @@ const mostLikes = (blogs) => {
     return {author: authorWithMostLikes, likes: authors[authorWithMostLikes]}
   }
 }
-
 
 
 module.exports = {
