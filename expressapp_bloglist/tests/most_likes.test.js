@@ -1,16 +1,16 @@
 const listHelper = require('../utils/list_helper')
-const blogLists = require('./blog_lists')
+const helper = require('./blog_test_helper')
 
 
 describe('author with most likes', () => {
 
   test('with an empty list is empty object', () => {
-    const result = listHelper.mostLikes(blogLists.emptyList)
+    const result = listHelper.mostLikes(helper.emptyList)
     expect(result).toEqual({})
   })
 
   test('when a list has only one blog equals an object {author: <authorOfThatBlog>, likes: <likesOfThatBlog>}', () => {
-    const result = listHelper.mostLikes(blogLists.listWithOneBlog)
+    const result = listHelper.mostLikes(helper.listWithOneBlog)
     expect(result).toEqual(
       {
         author:'Edsger W. Dijkstra', 
@@ -20,7 +20,7 @@ describe('author with most likes', () => {
   })
 
   test('of a list of many blogs the result is an object with the author of blogs with most likes as key and number of their likes as value', () =>  {
-    const result = listHelper.mostLikes(blogLists.listWithManyBlogs)
+    const result = listHelper.mostLikes(helper.listWithManyBlogs)
     expect(result).toEqual(
       {
         author: "Edsger W. Dijkstra", 

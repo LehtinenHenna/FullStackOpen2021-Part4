@@ -112,6 +112,33 @@ describe('addition of a new blog', () => {
   })
 })
 
+describe('deleting a blog', () => {
+
+  test('succeeds with status 204 if id is valid', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToDelete = blogsAtStart[0]
+
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(204)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(helper.listWithManyBlogs.length - 1)
+
+    const titles = blogsAtEnd.map(b => b.title)
+    expect(titles).not.toContain(blogToDelete.title)
+  })
+
+
+  test('fails with status code 400 if id is invalid', async () => {
+    const id = '7'
+
+    await api
+      .delete(`/api/blogs/${id}`)
+      .expect(400)
+  })
+})
+
 
 
 afterAll(() => {
