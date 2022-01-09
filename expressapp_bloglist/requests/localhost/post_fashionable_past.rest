@@ -6,5 +6,4 @@ Content-Type: application/json
   "author": " Katherine Caron-Greig",
   "url": "http://koshka-the-cat.blogspot.com/",
   "likes": "67"
-
 }
