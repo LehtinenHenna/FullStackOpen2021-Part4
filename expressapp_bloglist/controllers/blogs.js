@@ -3,6 +3,7 @@ const { request } = require('../app')
 const Blog = require('../models/blog')
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
+const { findById } = require('../models/blog')
 
 // gets all blogs
 blogsRouter.get('/', async (request, response) => {
@@ -57,8 +58,26 @@ blogsRouter.put('/:id', async (request, response) => {
 
 // deletes a blog by id
 blogsRouter.delete('/:id', async (request, response) => {
+  const token = request.token
+  const decodedToken = jwt.verify(token, process.env.SECRET)  
+
+  if (!token || !decodedToken.id) {    
+    return response.status(401).json({ error: 'token missing or invalid' })  
+  }  
+  const user = await User.findById(decodedToken.id)
+  const blog = await Blog.findById(request.params.id)
+
+  if (!blog) {
+    return response.status(404).json({ error: 'blog not found' })
+  }
+
+  if (user.id.toString() !== blog.user.toString()) {
+    return response.status(401).json({ error: 'you are not authorized to delete this blog' })
+  }
+
   await Blog.findByIdAndRemove(request.params.id)
   response.status(204).end()
+
 })
 
 module.exports = blogsRouter
