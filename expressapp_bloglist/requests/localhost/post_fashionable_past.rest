@@ -1,6 +1,6 @@
 POST http://localhost:3003/api/blogs 
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkhlbnJ5IiwiaWQiOiI2MWRiMTA1ZjllNDAxYTE2ZTQ1ZWYzMmIiLCJpYXQiOjE2NDE3NDkxODl9.C0a_kQR85IX60N5Bijsq8FW9ViBElV07f32g_F42hio
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkhlbnJ5IiwiaWQiOiI2MWRiMTA1ZjllNDAxYTE2ZTQ1ZWYzMmIiLCJpYXQiOjE2NDE3NTEyNzd9.hjM_2KsFlQnBAWZrFAZ1TVj59OKz25Wghl4A0s7yyak
 
 {
   "title" : "The Fashionable Past", 

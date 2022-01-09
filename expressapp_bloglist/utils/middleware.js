@@ -35,7 +35,19 @@ const morganLog = (morgan((tokens,req, res) => {
 }))
 
 
+const tokenExtractor = (request, response, next) => {
+  const authorization = request.get('authorization')  
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {    
+    request.token = authorization.replace('bearer ', '') // remove bearer from start to extract the token
+    console.log('request.token:', request.token)
+  } 
+  next()
+}
+  
+
+
 module.exports = {
   errorHandler,
-  morganLog
+  morganLog,
+  tokenExtractor
 }
