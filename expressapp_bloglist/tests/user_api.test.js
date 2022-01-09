@@ -69,6 +69,67 @@ describe('when there is initially one user at db', () => {
       .expect(200)
       .expect('Content-Type', /application\/json/)
   })
+
+  test('creating a user with invalid or missing username or password fails with proper status code and message', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    let invalidUser = {
+      username: 'o',
+      name: 'Aaron',
+      password: 'supersecret'
+    }
+    let result = await api
+      .post('/api/users')
+      .send(invalidUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    expect(result.body.error).toContain('shorter than the minimum allowed length')
+
+
+    invalidUser = {
+      name: 'Aaron',
+      password: 'supersecret'
+    }
+    result = await api
+      .post('/api/users')
+      .send(invalidUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    expect(result.body.error).toContain('`username` is required')
+
+
+    invalidUser = {
+      username: 'hey',
+      name: 'Aaron'
+    }
+    result = await api
+      .post('/api/users')
+      .send(invalidUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    expect(result.body.error).toContain('Invalid password. Password must at least 3 characters long.')
+
+
+    invalidUser = {
+      username: 'hey',
+      name: 'Aaron',
+      password: 'hi'
+    }
+    result = await api
+      .post('/api/users')
+      .send(invalidUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    expect(result.body.error).toContain('Invalid password. Password must at least 3 characters long.')
+
+
+    const usersAtEnd = await helper.usersInDb()
+    expect(usersAtEnd).toHaveLength(usersAtStart.length)
+  })
 })
 
 
