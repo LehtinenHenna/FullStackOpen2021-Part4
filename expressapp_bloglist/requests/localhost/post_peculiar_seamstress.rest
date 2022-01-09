@@ -1,0 +1,9 @@
+POST http://localhost:3003/api/blogs 
+Content-Type: application/json
+
+{
+  "title" : "A Most Peculiar Seamstress", 
+  "author": "Sarah W.",
+  "url": "https://peculiarseamstress.blog/",
+  "likes": "33"
+}
